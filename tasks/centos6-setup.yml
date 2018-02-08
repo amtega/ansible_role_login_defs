@@ -1,5 +1,5 @@
 # centos6-setup.yml
-
+# configure password requirements 
 - name: Check system-auth EOF configuration
   lineinfile:
     path: /etc/pam.d/system-auth

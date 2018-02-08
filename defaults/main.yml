@@ -7,3 +7,6 @@ pass_min_len: 8
 pass_warn_age: 7
 pass_always_warn: yes
 pass_change_tries: 5
+// default new file permisions
+// avoid new files could be read by another user
+default_new_file_perm: 0027
