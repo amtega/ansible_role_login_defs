@@ -1,2 +1,12 @@
 ---
 # Role tasks
+
+
+- name: Configure login.defs file
+  template:
+    backup: yes
+    src: login_defs.j2
+    dest: /etc/login.defs
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"

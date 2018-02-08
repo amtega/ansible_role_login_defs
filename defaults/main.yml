@@ -1,2 +1,9 @@
 ---
 # Role default lower priority variables
+
+pass_max_days: 120
+pass_min_days: 0
+pass_min_len: 8
+pass_warn_age: 7
+pass_always_warn: yes
+pass_change_tries: 5
