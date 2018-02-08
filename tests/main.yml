@@ -1,2 +1,7 @@
 ---
 # Tasks for tesing role
+- name: configure login.defs
+  become: true
+  hosts: localhost
+  roles:
+    - role: amtega.login_defs

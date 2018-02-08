@@ -1,30 +1,45 @@
-# role_name
+# Amtega login_defs role
 
-A brief description of the role goes here.
+Configure local password policy through login.defs file.
 
 ## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Ansible >= 2.4
 
 ## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+~~~ yaml
+pass_max_days: 120
+pass_min_days: 0
+pass_min_len: 8
+pass_warn_age: 7
+pass_always_warn: yes
+pass_change_tries: 5
+~~~
 
 ## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 ## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yaml
+---
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+  - hosts: localhost
+    become: true
+    roles:
+    - role: amtega.login_defs
+```
 
 ## Testing
 
-A description of how to run tests of the role if available.
+Test are based on docker containers. You can run the tests with the following commands:
+
+```shell
+$ cd amtega.login_defs/test
+$ ansible-playbook main.yml -K
+```
 
 ## License
 
