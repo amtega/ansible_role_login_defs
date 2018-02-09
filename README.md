@@ -8,14 +8,7 @@ Configure local password policy through login.defs file.
 
 ## Role Variables
 
-~~~ yaml
-pass_max_days: 120
-pass_min_days: 0
-pass_min_len: 8
-pass_warn_age: 7
-pass_always_warn: yes
-pass_change_tries: 5
-~~~
+A list of all the default variables for this role is available in defaults/main.yml.
 
 ## Dependencies
 
@@ -59,5 +52,4 @@ GNU General Public License for more details or European Union Public License for
 
 ## Author Information
 
-- author_name 1 ([mail_adrress_1](mailto:mail_address_1))
-- author_name N ([mail_adrress_N](mailto:mail_address_N))
+- Carlos Chedas Fernandez

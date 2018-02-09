@@ -1,12 +1,12 @@
 ---
 # Role default lower priority variables
 
-pass_max_days: 120
-pass_min_days: 0
-pass_min_len: 8
-pass_warn_age: 7
-pass_always_warn: yes
-pass_change_tries: 5
+password_maximum_days: 120
+password_minimum_days: 0
+password_minimum_len: 8
+password_warning_age: 7
+password_always_warn: yes
+password_change_tries: 5
 // default new file permisions
 // avoid new files could be read by another user
-default_new_file_perm: 0027
+default_new_file_permisions: 0027
