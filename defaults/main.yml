@@ -9,4 +9,4 @@ password_always_warn: yes
 password_change_tries: 5
 // default new file permisions
 // avoid new files could be read by another user
-default_new_file_permisions: 0027
+default_new_file_permissions: 0027
