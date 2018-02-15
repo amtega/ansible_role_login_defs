@@ -1,7 +1,5 @@
 ---
 # Role tasks
-
-
 - name: Configure login.defs file
   template:
     backup: yes
@@ -11,8 +9,11 @@
     group: root
     mode: "u=rw,g=r,o=r"
 
-- include: centos6-setup.yml
+- include: centos6.yml
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version < '7'
 
-- include: centos7-setup.yml
+- include: centos7.yml
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '7'
+
+  tags:
+    - role::login_defs

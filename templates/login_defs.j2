@@ -1,10 +1,10 @@
 {{ ansible_managed | comment }}
 
-PASS_MAX_DAYS {{ pass_max_days }}
-PASS_MIN_DAYS {{ pass_min_days }}
-PASS_MIN_LEN  {{ pass_min_len }}
-PASS_WARN_AGE {{ pass_warn_age }}
-PASS_ALWAYS_WARN {{ pass_always_warn }}
-PASS_CHANGE_TRIES {{ pass_change_tries }}
+PASS_MAX_DAYS {{ password_maximum_days_max_days }}
+PASS_MIN_DAYS {{ password_minimum_days_min_days }}
+PASS_MIN_LEN  {{ password_minimum_len_min_len }}
+PASS_WARN_AGE {{ password_warning_age }}
+PASS_ALWAYS_WARN {{ password_always_warn }}
+PASS_CHANGE_TRIES {{ password_change_tries }}
 
-UMASK {{ default_new_file_perm }}
+UMASK {{ default_new_file_permissions }}
