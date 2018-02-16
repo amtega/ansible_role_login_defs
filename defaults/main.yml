@@ -3,10 +3,10 @@
 
 password_maximum_days: 120
 password_minimum_days: 0
-password_minimum_len: 8
+password_minimum_length: 8
 password_warning_age: 7
 password_always_warn: yes
 password_change_tries: 5
-// default new file permisions
-// avoid new files could be read by another user
+# default new file permisions
+# avoid new files could be read by another user
 default_new_file_permissions: 0027
