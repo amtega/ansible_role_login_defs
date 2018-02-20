@@ -1,12 +1,64 @@
 ---
 # Role default lower priority variables
 
-password_maximum_days: 120
-password_minimum_days: 0
-password_minimum_length: 8
-password_warning_age: 7
-password_always_warn: yes
-password_change_tries: 5
-# default new file permisions
-# avoid new files could be read by another user
+# Number of attemps to login
+
+login_retries: 3
+
+# Indicate if a home directory should be created by default for new users
+
+create_home: yes
+
+# Indicate if login is allowed if we can't cd to the home directory.
+# If set to yes, the user will login in the root (/) directory if it is not
+# possible to cd to her home directory
+
+default_home: no
+
+# Enable logging and display of /var/log/lastlog login time info
+
+display_last_login: yes
+
+# Enable logging and display of /var/log/lastlog login time info.
+
+log_ok_logins: yes
+
+# Enable display of unknown usernames when login failures are recorded
+
+log_unknown_fail_usernames: yes
+
+# Max time in seconds for login.
+
+login_timeout: 300
+
+# Default new file permisions
+
 default_new_file_permissions: 0027
+
+# Maximum password durantion in days
+
+password_maximum_days: 120
+
+# Minimum password durantion in days
+
+password_minimum_days: 0
+
+# Minimum password length
+
+password_minimum_length: 8
+
+# The number of days warning given before a password expires
+
+password_warning_age: 7
+
+# Warn about weak passwords (but still allow them) if you are root.
+
+password_always_warn: yes
+
+# Number of tries during password change
+
+password_change_tries: 5
+
+# Number of ol passwords to remember
+
+password_remember: 5

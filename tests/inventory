@@ -1,4 +1,2 @@
 ---
 localhost ansible_connection=local
-#[testservers]
-#10.112.64.66

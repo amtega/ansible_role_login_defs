@@ -1,19 +1,46 @@
 ---
 # Role tasks
-- name: Configure login.defs file
-  template:
-    backup: yes
-    src: login_defs.j2
-    dest: /etc/login.defs
-    owner: root
-    group: root
-    mode: "u=rw,g=r,o=r"
 
-- include: centos6.yml
-  when: ansible_distribution == "CentOS" and ansible_distribution_major_version < '7'
+- block:
+    - name: configure login.defs file
+      template:
+        backup: yes
+        src: login_defs.j2
+        dest: /etc/login.defs
+        owner: root
+        group: root
+        mode: 0644
 
-- include: centos7.yml
-  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '7'
+    - name: setup password cracklib module for system-auth
+      lineinfile:
+        path: /etc/pam.d/system-auth
+        state: present
+        insertbefore: BOF
+        line: >-
+          password requisite pam_cracklib.so try_first_pass
+          retry={{ login_retries }} type= ucredit=-1 lcredit=-1 dcredit=-1
+          ocredit=-0
+      when: ansible_distribution_major_version <= 6
+
+    - name: setup password pwquality module for system-auth
+      lineinfile:
+        path: /etc/pam.d/system-auth
+        state: present
+        insertbefore: BOF
+        line: >-
+          password requisite pam_pwquality.so try_first_pass local_users_only
+          retry={{ login_retries }} authtok_type= ucredit=-1 lcredit=-1 dcredit=-1
+          ocredit=-0
+      when: ansible_distribution_major_version >= 7
+
+    - name: setup password unix module for system-auth
+      lineinfile:
+        path: /etc/pam.d/system-auth
+        state: present
+        insertafter: EOF
+        line: >-
+          password sufficient pam_unix.so sha512 shadow nullok try_first_pass
+          use_authtok remember={{ password_remember }}
 
   tags:
     - role::login_defs

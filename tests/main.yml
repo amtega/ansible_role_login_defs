@@ -1,7 +1,22 @@
 ---
 # Tasks for tesing role
-- name: configure login.defs
-  become: true
+
+- name: run idempotence test
   hosts: localhost
   roles:
-    - role: amtega.login_defs
+    - role: amtega.docker_presets
+    - role: amtega.docker_sandbox
+      docker_sandbox_state: started
+
+- name: test login_defs role
+  hosts: docker_sandbox_containers
+  roles:
+    - amtega.login_defs
+  tags:
+    - idempotence
+
+- name: cleanup docker docker sandbox
+  hosts: localhost
+  roles:
+    - role: amtega.docker_sandbox
+      docker_sandbox_state: absent
