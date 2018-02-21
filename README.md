@@ -1,6 +1,6 @@
 # Amtega login_defs role
 
-Configure local password policy through login.defs file.
+This is an [Ansible](http://www.ansible.com) role to setup login.defs shadow password suite.
 
 ## Requirements
 
@@ -8,7 +8,7 @@ Configure local password policy through login.defs file.
 
 ## Role Variables
 
-A list of all the default variables for this role is available in defaults/main.yml.
+A list of all the default variables for this role is available in `defaults/main.yml`.
 
 ## Dependencies
 
@@ -30,8 +30,15 @@ None.
 Test are based on docker containers. You can run the tests with the following commands:
 
 ```shell
-$ cd amtega.login_defs/test
+$ cd amtega.login_defs/tests
 $ ansible-playbook main.yml -K
+```
+
+If you have docker engine configured you can avoid running dependant 'docker_engine' role (that usually requries root privileges) with the following commands:
+
+```shell
+$ cd amtega.login_defs/tests
+$ ansible-playbook --skip-tags "role::docker_engine" main.yml
 ```
 
 ## License
