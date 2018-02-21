@@ -1,2 +1,20 @@
 ---
 # Role variables
+
+login_defs_system_auth_config_file: /etc/pam.d/system-auth
+
+login_defs_config_file: /etc/login.defs
+
+login_defs_cracklib_pam_d_config: >-
+  pam_cracklib.so try_first_pass
+  retry={{ login_retries }} type= ucredit=-1 lcredit=-1 dcredit=-1
+  ocredit=-0
+
+login_defs_pwquality_pam_d_config: >-
+  pam_pwquality.so try_first_pass local_users_only
+  retry={{ login_retries }} authtok_type= ucredit=-1 lcredit=-1 dcredit=-1
+  ocredit=-0
+
+login_defs_pam_unix_pam_d_config: >-
+  pam_unix.so sha512 shadow nullok try_first_pass use_authtok
+  remember={{ password_remember }}
