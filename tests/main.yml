@@ -12,6 +12,70 @@
   hosts: docker_sandbox_containers
   roles:
     - amtega.login_defs
+  vars:
+    login_retries: 3
+    create_home: "yes"
+    default_home: "no"
+    display_last_login: "yes"
+    log_ok_logins: "yes"
+    log_unknown_fail_usernames: "yes"
+    login_timeout: 300
+    default_new_file_permissions: "0027"
+    password_maximum_days: 120
+    password_minimum_days: 0
+    password_minimum_length: 8
+    password_warning_age: 7
+    password_always_warn: "yes"
+    password_change_tries: 5
+    password_remember: 5
+  tasks:
+      - name: read system-auth config file
+        shell: "cat {{ login_defs_system_auth_config_file }}"
+        changed_when: false
+        register: read_system_auth_config_result
+
+      - name: read login.defs config file
+        shell: "cat {{ login_defs_config_file }}"
+        changed_when: false
+        register: read_login_defs_config_result
+
+      - name: verify that system-auth config matches inventory
+        assert:
+          that:
+            - stdout | search(login_defs_cracklib_pam_d_config)
+            - stdout | search(login_defs_pam_unix_pam_d_config)
+        when: ansible_distribution_major_version | int <= 6
+        vars:
+          stdout: "{{ read_system_auth_config_result.stdout }}"
+
+      - name: verify that system-auth config matches inventory
+        assert:
+          that:
+            - stdout | search(login_defs_pwquality_pam_d_config)
+            - stdout | search(login_defs_pam_unix_pam_d_config)
+        when: ansible_distribution_major_version | int >= 7
+        vars:
+          stdout: "{{ read_system_auth_config_result.stdout }}"
+
+      - name: verify that login.defs config matches inventory
+        assert:
+          that:
+            - stdout | search("PASS_MAX_DAYS 120")
+            - stdout | search("PASS_MIN_DAYS 0")
+            - stdout | search("PASS_MIN_LEN 8")
+            - stdout | search("PASS_WARN_AGE 7")
+            - stdout | search("PASS_ALWAYS_WARN yes")
+            - stdout | search("PASS_CHANGE_TRIES 5")
+            - stdout | search("CREATE_HOME yes")
+            - stdout | search("DEFAULT_HOME no")
+            - stdout | search("LASTLOG_ENAB yes")
+            - stdout | search("LOG_OK_LOGINS yes")
+            - stdout | search("LOG_UNKFAIL_ENAB yes")
+            - stdout | search("LOGIN_RETRIES 3")
+            - stdout | search("LOGIN_TIMEOUT 300")
+            - stdout | search("UMASK 0027")
+        vars:
+          stdout: "{{ read_login_defs_config_result.stdout }}"
   tags:
     - idempotence
 
