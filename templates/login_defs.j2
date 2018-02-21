@@ -1,18 +1,20 @@
 {{ ansible_managed | comment }}
 
+LOGIN_RETRIES {{ login_retries }}
+LOGIN_TIMEOUT {{ login_timeout }}
+
 PASS_MAX_DAYS {{ password_maximum_days }}
 PASS_MIN_DAYS {{ password_minimum_days }}
-PASS_MIN_LEN  {{ password_minimum_length }}
+PASS_MIN_LEN {{ password_minimum_length }}
 PASS_WARN_AGE {{ password_warning_age }}
 PASS_ALWAYS_WARN {{ password_always_warn }}
 PASS_CHANGE_TRIES {{ password_change_tries }}
 
 CREATE_HOME {{ create_home }}
 DEFAULT_HOME {{ default_home }}
+
 LASTLOG_ENAB {{ display_last_login }}
 LOG_OK_LOGINS {{ log_ok_logins }}
 LOG_UNKFAIL_ENAB {{ log_unknown_fail_usernames }}
-LOGIN_RETRIES {{ login_retries }}
-LOGIN_TIMEOUT {{ login_timeout }}
 
 UMASK {{ default_new_file_permissions }}
