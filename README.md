@@ -59,4 +59,4 @@ GNU General Public License for more details or European Union Public License for
 
 ## Author Information
 
-- Carlos Chedas Fernandez
+- Carlos Chedas Fernandez.
