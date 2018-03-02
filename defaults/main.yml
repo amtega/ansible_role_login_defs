@@ -3,62 +3,62 @@
 
 # Number of attemps to login
 
-login_retries: 3
+login_defs_login_retries: 3
 
 # Indicate if a home directory should be created by default for new users
 
-create_home: "yes"
+login_defs_create_home: "yes"
 
 # Indicate if login is allowed if we can't cd to the home directory.
 # If set to yes, the user will login in the root (/) directory if it is not
 # possible to cd to her home directory
 
-default_home: "no"
+login_defs_default_home: "no"
 
 # Enable logging and display of /var/log/lastlog login time info
 
-display_last_login: "yes"
+login_defs_display_last_login: "yes"
 
 # Enable logging and display of /var/log/lastlog login time info.
 
-log_ok_logins: "yes"
+login_defs_log_ok_logins: "yes"
 
 # Enable display of unknown usernames when login failures are recorded
 
-log_unknown_fail_usernames: "yes"
+login_defs_log_unknown_fail_usernames: "yes"
 
 # Max time in seconds for login.
 
-login_timeout: 300
+login_defs_login_timeout: 300
 
 # Default new file permisions
 
-default_new_file_permissions: "0027"
+login_defs_default_new_file_permissions: "0027"
 
 # Maximum password durantion in days
 
-password_maximum_days: 120
+login_defs_password_maximum_days: 120
 
 # Minimum password durantion in days
 
-password_minimum_days: 0
+login_defs_password_minimum_days: 0
 
 # Minimum password length
 
-password_minimum_length: 8
+login_defs_password_minimum_length: 8
 
 # The number of days warning given before a password expires
 
-password_warning_age: 7
+login_defs_password_warning_age: 7
 
 # Warn about weak passwords (but still allow them) if you are root.
 
-password_always_warn: "yes"
+login_defs_password_always_warn: "yes"
 
 # Number of tries during password change
 
-password_change_tries: 5
+login_defs_password_change_tries: 5
 
 # Number of ol passwords to remember
 
-password_remember: 5
+login_defs_password_remember: 5

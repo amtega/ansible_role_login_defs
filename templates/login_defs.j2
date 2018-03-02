@@ -1,20 +1,20 @@
 {{ ansible_managed | comment }}
 
-LOGIN_RETRIES {{ login_retries }}
-LOGIN_TIMEOUT {{ login_timeout }}
+LOGIN_RETRIES {{ login_defs_login_retries }}
+LOGIN_TIMEOUT {{ login_defs_login_timeout }}
 
-PASS_MAX_DAYS {{ password_maximum_days }}
-PASS_MIN_DAYS {{ password_minimum_days }}
-PASS_MIN_LEN {{ password_minimum_length }}
-PASS_WARN_AGE {{ password_warning_age }}
-PASS_ALWAYS_WARN {{ password_always_warn }}
-PASS_CHANGE_TRIES {{ password_change_tries }}
+PASS_MAX_DAYS {{ login_defs_password_maximum_days }}
+PASS_MIN_DAYS {{ login_defs_password_minimum_days }}
+PASS_MIN_LEN {{ login_defs_password_minimum_length }}
+PASS_WARN_AGE {{ login_defs_password_warning_age }}
+PASS_ALWAYS_WARN {{ login_defs_password_always_warn }}
+PASS_CHANGE_TRIES {{ login_defs_password_change_tries }}
 
-CREATE_HOME {{ create_home }}
-DEFAULT_HOME {{ default_home }}
+CREATE_HOME {{ login_defs_create_home }}
+DEFAULT_HOME {{ login_defs_default_home }}
 
-LASTLOG_ENAB {{ display_last_login }}
-LOG_OK_LOGINS {{ log_ok_logins }}
-LOG_UNKFAIL_ENAB {{ log_unknown_fail_usernames }}
+LASTLOG_ENAB {{ login_defs_display_last_login }}
+LOG_OK_LOGINS {{ login_defs_log_ok_logins }}
+LOG_UNKFAIL_ENAB {{ login_defs_log_unknown_fail_usernames }}
 
-UMASK {{ default_new_file_permissions }}
+UMASK {{ login_defs_default_new_file_permissions }}
