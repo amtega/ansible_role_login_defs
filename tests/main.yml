@@ -42,8 +42,8 @@
       - name: verify that system-auth config matches inventory
         assert:
           that:
-            - stdout | search(login_defs_cracklib_pam_d_config)
-            - stdout | search(login_defs_pam_unix_pam_d_config)
+            - stdout is search(login_defs_cracklib_pam_d_config)
+            - stdout is search(login_defs_pam_unix_pam_d_config)
         when: ansible_distribution_major_version | int <= 6
         vars:
           stdout: "{{ read_system_auth_config_result.stdout }}"
@@ -51,8 +51,8 @@
       - name: verify that system-auth config matches inventory
         assert:
           that:
-            - stdout | search(login_defs_pwquality_pam_d_config)
-            - stdout | search(login_defs_pam_unix_pam_d_config)
+            - stdout is search(login_defs_pwquality_pam_d_config)
+            - stdout is search(login_defs_pam_unix_pam_d_config)
         when: ansible_distribution_major_version | int >= 7
         vars:
           stdout: "{{ read_system_auth_config_result.stdout }}"
@@ -60,20 +60,20 @@
       - name: verify that login.defs config matches inventory
         assert:
           that:
-            - stdout | search("PASS_MAX_DAYS 120")
-            - stdout | search("PASS_MIN_DAYS 0")
-            - stdout | search("PASS_MIN_LEN 8")
-            - stdout | search("PASS_WARN_AGE 7")
-            - stdout | search("PASS_ALWAYS_WARN yes")
-            - stdout | search("PASS_CHANGE_TRIES 5")
-            - stdout | search("CREATE_HOME yes")
-            - stdout | search("DEFAULT_HOME no")
-            - stdout | search("LASTLOG_ENAB yes")
-            - stdout | search("LOG_OK_LOGINS yes")
-            - stdout | search("LOG_UNKFAIL_ENAB yes")
-            - stdout | search("LOGIN_RETRIES 3")
-            - stdout | search("LOGIN_TIMEOUT 300")
-            - stdout | search("UMASK 0027")
+            - stdout is search("PASS_MAX_DAYS 120")
+            - stdout is search("PASS_MIN_DAYS 0")
+            - stdout is search("PASS_MIN_LEN 8")
+            - stdout is search("PASS_WARN_AGE 7")
+            - stdout is search("PASS_ALWAYS_WARN yes")
+            - stdout is search("PASS_CHANGE_TRIES 5")
+            - stdout is search("CREATE_HOME yes")
+            - stdout is search("DEFAULT_HOME no")
+            - stdout is search("LASTLOG_ENAB yes")
+            - stdout is search("LOG_OK_LOGINS yes")
+            - stdout is search("LOG_UNKFAIL_ENAB yes")
+            - stdout is search("LOGIN_RETRIES 3")
+            - stdout is search("LOGIN_TIMEOUT 300")
+            - stdout is search("UMASK 0027")
         vars:
           stdout: "{{ read_login_defs_config_result.stdout }}"
   tags:
