@@ -1,6 +1,7 @@
 ---
 
 galaxy_info:
+  role_name: login_defs
   author: Carlos Chedas Fernández
   description: Configure login.defs shadow password suite
   company: AMTEGA - Xunta de Galicia
