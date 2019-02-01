@@ -7,13 +7,21 @@ login_defs_config_file: /etc/login.defs
 
 login_defs_cracklib_pam_d_config: >-
   pam_cracklib.so try_first_pass
-  retry={{ login_defs_login_retries }} type= ucredit=-1 lcredit=-1 dcredit=-1
-  ocredit=-0
+  retry={{ login_defs_login_retries }}
+  type={{ login_defs_password_type }}
+  ucredit={{ login_defs_password_ucredit }}
+  lcredit={{ login_defs_password_lcredit }}
+  dcredit={{ login_defs_password_dcredit }}
+  ocredit={{ login_defs_password_ocredit }}
 
 login_defs_pwquality_pam_d_config: >-
   pam_pwquality.so try_first_pass local_users_only
-  retry={{ login_defs_login_retries }} authtok_type= ucredit=-1 lcredit=-1 dcredit=-1
-  ocredit=-0
+  retry={{ login_defs_login_retries }}
+  authtok_type={{ login_defs_password_type }}
+  ucredit={{ login_defs_password_ucredit }}
+  lcredit={{ login_defs_password_lcredit }}
+  dcredit={{ login_defs_password_dcredit }}
+  ocredit={{ login_defs_password_ocredit }}
 
 login_defs_pam_unix_pam_d_config: >-
   pam_unix.so sha512 shadow nullok try_first_pass use_authtok
