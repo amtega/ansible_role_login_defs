@@ -2,7 +2,7 @@
 # Role tasks
 
 - block:
-    - name: configure login.defs file
+    - name: setup login.defs file
       template:
         backup: yes
         src: login_defs.j2
@@ -18,7 +18,7 @@
         regexp: "^password( +)requisite( +)"
         line: "password\\1requisite\\2{{ login_defs_cracklib_pam_d_config }}"
         backrefs: yes
-      when: ansible_distribution_major_version | int <= 6
+      when: ansible_facts.distribution_major_version is version("6", "<=")
 
     - name: setup password pwquality module for system-auth
       lineinfile:
@@ -27,7 +27,7 @@
         regexp: "^password( +)requisite( +)"
         backrefs: yes
         line: "password\\1requisite\\2{{ login_defs_pwquality_pam_d_config }}"
-      when: ansible_distribution_major_version | int >= 7
+      when: ansible_facts.distribution_major_version is version("7", ">=")
 
     - name: setup password unix module for system-auth
       lineinfile:

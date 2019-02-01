@@ -7,25 +7,25 @@ login_defs_login_retries: 3
 
 # Indicate if a home directory should be created by default for new users
 
-login_defs_create_home: "yes"
+login_defs_create_home: yes
 
 # Indicate if login is allowed if we can't cd to the home directory.
 # If set to yes, the user will login in the root (/) directory if it is not
 # possible to cd to her home directory
 
-login_defs_default_home: "no"
+login_defs_default_home: no
 
 # Enable logging and display of /var/log/lastlog login time info
 
-login_defs_display_last_login: "yes"
+login_defs_display_last_login: yes
 
 # Enable logging and display of /var/log/lastlog login time info.
 
-login_defs_log_ok_logins: "yes"
+login_defs_log_ok_logins: yes
 
 # Enable display of unknown usernames when login failures are recorded
 
-login_defs_log_unknown_fail_usernames: "yes"
+login_defs_log_unknown_fail_usernames: yes
 
 # Max time in seconds for login.
 
@@ -53,7 +53,7 @@ login_defs_password_warning_age: 7
 
 # Warn about weak passwords (but still allow them) if you are root.
 
-login_defs_password_always_warn: "yes"
+login_defs_password_always_warn: yes
 
 # Number of tries during password change
 
@@ -62,3 +62,13 @@ login_defs_password_change_tries: 5
 # Number of ol passwords to remember
 
 login_defs_password_remember: 5
+
+# Password quality configuration. See pam_cracklib/pam_pwquality PAM modules
+# documentation for details. The default options require uppercase, lowercase,
+# letters and numbers in passwords
+
+login_defs_password_type: ""
+login_defs_password_ucredit: -1
+login_defs_password_lcredit: -1
+login_defs_password_dcredit: -1
+login_defs_password_ocredit: -0
