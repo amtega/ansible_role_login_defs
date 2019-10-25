@@ -3,6 +3,8 @@
 
 login_defs_system_auth_config_file: /etc/pam.d/system-auth
 
+login_defs_password_auth_config_file: /etc/pam.d/password-auth
+
 login_defs_config_file: /etc/login.defs
 
 login_defs_cracklib_pam_d_config: >-
@@ -26,3 +28,9 @@ login_defs_pwquality_pam_d_config: >-
 login_defs_pam_unix_pam_d_config: >-
   pam_unix.so sha512 shadow nullok try_first_pass use_authtok
   remember={{ login_defs_password_remember }}
+
+login_defs_pam_faillock_pam_d_config: |
+  auth \t    required\t\t\t\t\t pam_faillock.so preauth audit silent deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}
+  auth \t    [success=1 default=bad]\t\t \t pam_unix.so
+  auth \t    [default=die]\t\t\t\t pam_faillock.so authfail audit deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}
+  auth \t    sufficient\t\t\t\t\t pam_faillock.so authsucc audit deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}
