@@ -10,44 +10,11 @@
       rhel: 6
 
 - block:
-
-    - include_tasks: skip_authconfig.yml
-
-    - name: setup login.defs file
-      template:
-        backup: yes
-        src: login_defs.j2
-        dest: "{{ login_defs_config_file }}"
-        owner: root
-        group: root
-        mode: 0644
-
-    - name: setup password cracklib module for system-auth
-      lineinfile:
-        path: "{{ login_defs_system_auth_config_file }}"
-        state: present
-        regexp: "^password( +)requisite( +)pam_cracklib.so"
-        line: "password\\1requisite\\2{{ login_defs_cracklib_pam_d_config }}"
-        backrefs: yes
-      when: ansible_facts.distribution_major_version is version("6", "<=")
-
-    - name: setup password pwquality module for system-auth
-      lineinfile:
-        path: "{{ login_defs_system_auth_config_file }}"
-        state: present
-        regexp: "^password( +)requisite( +)pam_pwquality.so"
-        line: "password\\1requisite\\2{{ login_defs_pwquality_pam_d_config }}"
-        backrefs: yes
-      when: ansible_facts.distribution_major_version is version("7", ">=")
-
-    - name: setup password unix module for system-auth
-      lineinfile:
-        path: "{{ login_defs_system_auth_config_file }}"
-        state: present
-        regexp: "^password( +)sufficient( +)pam_unix.so"
-        line: "password\\1sufficient\\2{{ login_defs_pam_unix_pam_d_config }}"
-        backrefs: yes
-
-    - include_tasks: faillock_conf.yml
+    - include_tasks: faillock.yml
+    # - include_tasks: authconfig.yml
+    - include_tasks: login_defs.yml
+    - include_tasks: cracklib.yml
+    - include_tasks: pwquality.yml
+    - include_tasks: unix.yml
   tags:
     - role::login_defs

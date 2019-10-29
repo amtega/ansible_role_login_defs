@@ -1,0 +1,19 @@
+---
+# Copy default files tasks for fedora
+
+- name: Copy default files
+  copy:
+    src: >-
+      {{ "/etc/authselect/"
+         + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}
+    dest: >-
+      {{ "/etc/pam.d/"
+         + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}
+    remote_src: yes
+  when:
+    - login_defs_stat_pam_auth_result_item.stat.islnk is defined
+    - login_defs_stat_pam_auth_result_item.stat.islnk
+    - ansible_facts.distribution | lower in ["fedora"]
+  loop: "{{ login_defs_stat_pam_auth_result.results }}"
+  loop_control:
+    loop_var: login_defs_stat_pam_auth_result_item
