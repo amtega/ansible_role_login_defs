@@ -1,8 +1,11 @@
+---
+# Faillock config tasks
+
 - block:
     - name: Include faillock auth configuration
       replace:
         path: "{{ login_defs_faillock_item }}"
-        regexp: "^auth( +)sufficient( +)pam_unix.so(.*)$\n"
+        regexp: "^auth( +)sufficient( +)pam_unix.so(.*)$"
         replace: "{{ login_defs_pam_faillock_pam_d_config }}"
       loop:
         - "{{ login_defs_system_auth_config_file }}"

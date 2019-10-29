@@ -2,9 +2,11 @@
 # Role default lower priority variables
 
 # Number of nunllock fails
+
 login_defs_pam_faillock_deny: 5
 
 # Seconds to wait for nunllock unlock
+
 login_defs_pam_faillock_unlock_time: 900
 
 # Number of attemps to login

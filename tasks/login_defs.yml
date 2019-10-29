@@ -1,0 +1,13 @@
+---
+# Login defaults tasks.
+
+- name: Setup login.defs file
+  template:
+    backup: yes
+    src: login_defs.j2
+    dest: "{{ login_defs_config_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - role::login_defs

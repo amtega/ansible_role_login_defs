@@ -29,8 +29,26 @@ login_defs_pam_unix_pam_d_config: >-
   pam_unix.so sha512 shadow nullok try_first_pass use_authtok
   remember={{ login_defs_password_remember }}
 
-login_defs_pam_faillock_pam_d_config: |
-  auth \t    required \t pam_faillock.so preauth audit silent deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}
+login_defs_pam_faillock_pam_d_config_line1: >-
+  auth \t    required \t pam_faillock.so preauth audit
+  silent deny={{ login_defs_pam_faillock_deny }}
+  unlock_time={{ login_defs_pam_faillock_unlock_time }}
+
+login_defs_pam_faillock_pam_d_config_line2: >-
   auth \t    [success=1 default=bad] \t pam_unix.so
-  auth \t    [default=die] \t pam_faillock.so authfail audit deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}
-  auth \t    sufficient \t pam_faillock.so authsucc audit deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}
+
+login_defs_pam_faillock_pam_d_config_line3: >-
+  auth \t    [default=die] \t pam_faillock.so authfail audit
+  deny={{ login_defs_pam_faillock_deny }}
+  unlock_time={{ login_defs_pam_faillock_unlock_time }}
+
+login_defs_pam_faillock_pam_d_config_line4: >-
+  auth \t    sufficient \t pam_faillock.so authsucc audit
+  deny={{ login_defs_pam_faillock_deny }}
+  unlock_time={{ login_defs_pam_faillock_unlock_time }}
+
+login_defs_pam_faillock_pam_d_config: |
+  {{ login_defs_pam_faillock_pam_d_config_line1 }}
+  {{ login_defs_pam_faillock_pam_d_config_line2 }}
+  {{ login_defs_pam_faillock_pam_d_config_line3 }}
+  {{ login_defs_pam_faillock_pam_d_config_line4 }}
