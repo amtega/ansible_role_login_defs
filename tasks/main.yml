@@ -10,8 +10,8 @@
       rhel: 6
 
 - block:
+    - include_tasks: authconfig.yml
     - include_tasks: faillock.yml
-    # - include_tasks: authconfig.yml
     - include_tasks: login_defs.yml
     - include_tasks: cracklib.yml
     - include_tasks: pwquality.yml
