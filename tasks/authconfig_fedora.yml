@@ -4,9 +4,9 @@
 - name: Copy default files
   shell: >-
     rm {{ '/etc/pam.d/'
-          + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }};
+          + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}; \
     cp {{ '/etc/authselect/'
-          + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}
+          + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }} \
        {{ '/etc/pam.d/'
           + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}
   args:
@@ -17,3 +17,6 @@
   loop: "{{ login_defs_stat_pam_auth_result.results }}"
   loop_control:
     loop_var: login_defs_stat_pam_auth_result_item
+    label: >-
+      {{ '/etc/pam.d/'
+         + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}
