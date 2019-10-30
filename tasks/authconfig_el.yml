@@ -3,17 +3,21 @@
 
 - name: Copy default files
   shell: >-
-      rm "{{ '/etc/pam.d/'
-         + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}";
-      cp "{{ '/etc/pam.d/'
-         + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file
-         + '-ac' }}" "{{ '/etc/pam.d/'
-         + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}"
+    rm {{ '/etc/pam.d/'
+          + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}; \
+    cp {{ '/etc/pam.d/'
+          + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file
+          + '-ac' }} \
+       {{ '/etc/pam.d/'
+          + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}
+  args:
+    warn: no
   when:
-        - login_defs_stat_pam_auth_result_item.stat.islnk is defined
-        - login_defs_stat_pam_auth_result_item.stat.islnk
+    - login_defs_stat_pam_auth_result_item.stat.islnk is defined
+    - login_defs_stat_pam_auth_result_item.stat.islnk
   loop: "{{ login_defs_stat_pam_auth_result.results }}"
   loop_control:
     loop_var: login_defs_stat_pam_auth_result_item
-  args:
-    warn: no
+    label: >-
+      {{ '/etc/pam.d/'
+         + login_defs_stat_pam_auth_result_item.login_defs_pam_auth_file }}

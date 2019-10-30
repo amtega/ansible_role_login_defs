@@ -1,27 +1,29 @@
 ---
 # Tasks for testing role
-- name: Configure vagrant sandbox environment
+
+- name: Configure docker sandbox environment
   hosts: localhost
   roles:
-    - role: amtega.vagrant_presets
-      vagrant_presets_boxes_json_query: >-
-        [? starts_with(name, `centos-6`)
-           || starts_with(name, `centos-7`)
-           || starts_with(name, `fedora-29`)
-           || starts_with(name, `fedora-30`) ]
+    - role: amtega.docker_presets
+      vars:
+        docker_presets_images_json_query: >-
+          [? starts_with(name, `centos-6`)
+             || starts_with(name, `centos-7`)
+             || starts_with(name, `fedora-29`)
+             || starts_with(name, `fedora-30`) ]
   tags:
     - sandbox
 
 - name: Run idempotence test
   hosts: localhost
   roles:
-    - role: amtega.vagrant_sandbox
-      vagrant_sandbox_state: started
+    - role: amtega.docker_sandbox
+      docker_sandbox_state: started
   tags:
     - sandbox
 
-- name: test login_defs role
-  hosts: vagrant_sandbox_vms
+- name: Test login_defs role
+  hosts: docker_sandbox_containers
   roles:
     - amtega.login_defs
   vars:
@@ -83,8 +85,6 @@
       vars:
         stdout: "{{ read_password_auth_config_result.stdout }}"
 
-
-
     - name: verify that login.defs config matches inventory
       assert:
         that:
@@ -107,11 +107,11 @@
   tags:
     - idempotence
 
-- name: Cleanup vagrant sandbox
+- name: Cleanup docker sandbox
   hosts: localhost
   roles:
-    - role: amtega.vagrant_sandbox
-      vagrant_sandbox_state: absent
+    - role: amtega.docker_sandbox
+      docker_sandbox_state: absent
   tags:
     - cleanup
-    - sandbox  
+    - sandbox
