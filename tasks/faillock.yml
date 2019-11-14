@@ -12,18 +12,35 @@
       changed_when: false
       register: search_password_auth_config
 
-    - name: Include faillock auth configuration
-      replace:
-        path: "{{ login_defs_faillock_item }}"
-        regexp: "^auth(.*)pam_unix.so(.*)$"
-        replace: "{{ login_defs_pam_faillock_pam_d_config }}"
+    - block:
+
+        - name: Include faillock auth configuration
+          command: >-
+                    /usr/sbin/authconfig
+                    --enablefaillock
+                    --faillockargs='deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}'
+                    --updateall
+
       when:
         - search_password_auth_config.stdout is not search("pam_faillock.so")
         - search_system_auth_config.stdout is not search("pam_faillock.so")
-      loop:
-        - "{{ login_defs_system_auth_config_file }}"
-        - "{{ login_defs_password_auth_config_file }}"
-      loop_control:
-        loop_var:   login_defs_faillock_item
+        - login_defs_pam_faillock_state == "present"
+        - ansible_facts.distribution | lower in ["centos", "rehat"]
+        - ansible_facts.distribution_major_version is version('7', '==')
+
+    - block:
+
+        - name: Exclude faillock auth configuration
+          command: >-
+                    /usr/sbin/authconfig
+                    --disablefaillock
+                    --updateall
+
+      when:
+        - search_password_auth_config.stdout is search("pam_faillock.so")
+        - search_system_auth_config.stdout is search("pam_faillock.so")
+        - login_defs_pam_faillock_state == "absent"
+        - ansible_facts.distribution | lower in ["centos", "rehat"]
+        - ansible_facts.distribution_major_version is version('7', '==')
   tags:
     - role::login_defs::faillock

@@ -1,6 +1,10 @@
 ---
 # Role default lower priority variables
 
+# State of pam_faillock module [present, absent]
+
+login_defs_pam_faillock_state: present
+
 # Number of nunllock fails
 
 login_defs_pam_faillock_deny: 5
