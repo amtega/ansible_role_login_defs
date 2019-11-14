@@ -30,6 +30,6 @@ login_defs_pam_unix_pam_d_config: >-
   remember={{ login_defs_password_remember }}
 
 login_defs_pam_faillock_pam_d_config_bugfix: >-
-  auth \t    required \t pam_faillock.so authfail
+  auth        required       pam_faillock.so authfail
   deny={{ login_defs_pam_faillock_deny }}
   unlock_time={{ login_defs_pam_faillock_unlock_time }}
