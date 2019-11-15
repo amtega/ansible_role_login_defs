@@ -39,22 +39,22 @@
     login_defs_password_change_tries: 5
     login_defs_password_remember: 5
   tasks:
-    - name: read system-auth config file
+    - name: Read system-auth config file
       shell: "cat {{ login_defs_system_auth_config_file }}"
       changed_when: false
       register: read_system_auth_config_result
 
-    - name: read password-auth config file
+    - name: Read password-auth config file
       shell: "cat {{ login_defs_password_auth_config_file }}"
       changed_when: false
       register: read_password_auth_config_result
 
-    - name: read login.defs config file
+    - name: Read login.defs config file
       shell: "cat {{ login_defs_config_file }}"
       changed_when: false
       register: read_login_defs_config_result
 
-    - name: verify that system-auth config matches inventory
+    - name: Verify that system-auth config matches inventory
       assert:
         that:
           - stdout is search(login_defs_cracklib_pam_d_config)
@@ -63,7 +63,7 @@
       vars:
         stdout: "{{ read_system_auth_config_result.stdout }}"
 
-    - name: verify that system-auth config matches inventory
+    - name: Verify that system-auth config matches inventory
       assert:
         that:
           - stdout is search(login_defs_pwquality_pam_d_config)
@@ -73,7 +73,7 @@
       vars:
         stdout: "{{ read_system_auth_config_result.stdout }}"
 
-    - name: verify that password-auth config matches inventory
+    - name: Verify that password-auth config matches inventory
       assert:
         that:
           - stdout is search("pam_faillock.so")
@@ -81,7 +81,7 @@
       vars:
         stdout: "{{ read_password_auth_config_result.stdout }}"
 
-    - name: verify that login.defs config matches inventory
+    - name: Verify that login.defs config matches inventory
       assert:
         that:
           - stdout is search("PASS_MAX_DAYS 120")

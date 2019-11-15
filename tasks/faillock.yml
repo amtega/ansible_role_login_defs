@@ -13,43 +13,45 @@
       register: search_password_auth_config
 
     - block:
-
         - name: Include faillock auth configuration
           command: >-
             /usr/sbin/authconfig
             --enablefaillock
-            --faillockargs='deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}'
+            --faillockargs='{{ fail_lock_args }}'
             --updateall
+          vars:
+            fail_lock_args: >-
+              deny={{ login_defs_pam_faillock_deny }}
+              unlock_time={{ login_defs_pam_faillock_unlock_time }}
 
-        - name: Fix bug 1485490 acording https://access.redhat.com/solutions/4175751  (1)
+        # See https://access.redhat.com/solutions/4175751 for details
+        - name: Fix bug 1485490
           lineinfile:
             path: "{{ login_defs_password_auth_config_file }}"
             regexp: "^auth( +)required( +)pam_faillock.so( +)authfail"
             state: absent
 
-        - name: Fix bug 1485490 acording https://access.redhat.com/solutions/4175751  (2)
+        # See https://access.redhat.com/solutions/4175751 for details
+        - name: Fix bug 1485490
           lineinfile:
             path: "{{ login_defs_password_auth_config_file }}"
             insertbefore: "^auth( +)required( +)pam_deny.so"
             line: "{{ login_defs_pam_faillock_pam_d_config_bugfix }}"
-
       when:
         - search_password_auth_config.stdout is not search("pam_faillock.so")
         - search_system_auth_config.stdout is not search("pam_faillock.so")
         - login_defs_pam_faillock_state == "present"
 
     - block:
-
         - name: Exclude faillock auth configuration
           command: >-
                     /usr/sbin/authconfig
                     --disablefaillock
                     --updateall
-
       when:
         - search_password_auth_config.stdout is search("pam_faillock.so")
         - search_system_auth_config.stdout is search("pam_faillock.so")
         - login_defs_pam_faillock_state == "absent"
-        
+
   tags:
     - role::login_defs::faillock
