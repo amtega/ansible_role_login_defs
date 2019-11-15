@@ -6,15 +6,21 @@
   vars:
     check_platform_distributions:
       centos: 6
-      fedora: 27
       rhel: 6
 
 - block:
-    - include_tasks: authconfig.yml
     - include_tasks: faillock.yml
+      when:
+        - ansible_facts.distribution | lower in ["centos", "rehat"]
+        - ansible_facts.distribution_major_version is version('7', '==')
+
     - include_tasks: login_defs.yml
+
     - include_tasks: cracklib.yml
+
     - include_tasks: pwquality.yml
+
     - include_tasks: unix.yml
+    
   tags:
     - role::login_defs
