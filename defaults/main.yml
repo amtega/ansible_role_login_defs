@@ -1,7 +1,7 @@
 ---
 # Role default lower priority variables
 
-# State of pam_faillock module [present, absent]
+# State of pam_faillock module. Can be present or absent
 
 login_defs_pam_faillock_state: present
 
