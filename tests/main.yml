@@ -1,29 +1,25 @@
 ---
 # Tasks for testing role
-
-- name: Configure docker sandbox environment
+- name: Configure vagrant sandbox environment
   hosts: localhost
   roles:
-    - role: amtega.docker_presets
-      vars:
-        docker_presets_images_json_query: >-
-          [? starts_with(name, `centos-6`)
-             || starts_with(name, `centos-7`)
-             || starts_with(name, `fedora-29`)
-             || starts_with(name, `fedora-30`) ]
+    - role: amtega.vagrant_presets
+      vagrant_presets_boxes_json_query: >-
+        [? starts_with(name, `centos-6`)
+           || starts_with(name, `centos-7`) ]
   tags:
     - sandbox
 
 - name: Run idempotence test
   hosts: localhost
   roles:
-    - role: amtega.docker_sandbox
-      docker_sandbox_state: started
+    - role: amtega.vagrant_sandbox
+      vagrant_sandbox_state: started
   tags:
     - sandbox
 
 - name: Test login_defs role
-  hosts: docker_sandbox_containers
+  hosts: vagrant_sandbox_vms
   roles:
     - amtega.login_defs
   vars:
@@ -63,7 +59,6 @@
         that:
           - stdout is search(login_defs_cracklib_pam_d_config)
           - stdout is search(login_defs_pam_unix_pam_d_config)
-          - stdout is search("pam_faillock.so")
       when: ansible_facts.distribution_major_version is version("6", "<=")
       vars:
         stdout: "{{ read_system_auth_config_result.stdout }}"
@@ -82,6 +77,7 @@
       assert:
         that:
           - stdout is search("pam_faillock.so")
+      when: ansible_facts.distribution_major_version is version("7", ">=")
       vars:
         stdout: "{{ read_password_auth_config_result.stdout }}"
 
@@ -107,11 +103,11 @@
   tags:
     - idempotence
 
-- name: Cleanup docker sandbox
+- name: Cleanup vagrant sandbox
   hosts: localhost
   roles:
-    - role: amtega.docker_sandbox
-      docker_sandbox_state: absent
+    - role: amtega.vagrant_sandbox
+      vagrant_sandbox_state: absent
   tags:
     - cleanup
     - sandbox
