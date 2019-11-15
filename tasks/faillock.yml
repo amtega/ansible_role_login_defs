@@ -16,10 +16,10 @@
 
         - name: Include faillock auth configuration
           command: >-
-                    /usr/sbin/authconfig
-                    --enablefaillock
-                    --faillockargs='deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}'
-                    --updateall
+            /usr/sbin/authconfig
+            --enablefaillock
+            --faillockargs='deny={{ login_defs_pam_faillock_deny }} unlock_time={{ login_defs_pam_faillock_unlock_time }}'
+            --updateall
 
         - name: Fix bug 1485490 acording https://access.redhat.com/solutions/4175751  (1)
           lineinfile:
@@ -37,8 +37,6 @@
         - search_password_auth_config.stdout is not search("pam_faillock.so")
         - search_system_auth_config.stdout is not search("pam_faillock.so")
         - login_defs_pam_faillock_state == "present"
-        - ansible_facts.distribution | lower in ["centos", "rehat"]
-        - ansible_facts.distribution_major_version is version('7', '==')
 
     - block:
 
@@ -52,7 +50,6 @@
         - search_password_auth_config.stdout is search("pam_faillock.so")
         - search_system_auth_config.stdout is search("pam_faillock.so")
         - login_defs_pam_faillock_state == "absent"
-        - ansible_facts.distribution | lower in ["centos", "rehat"]
-        - ansible_facts.distribution_major_version is version('7', '==')
+        
   tags:
     - role::login_defs::faillock
