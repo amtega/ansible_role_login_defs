@@ -1,13 +1,6 @@
 ---
 # Role tasks
 
-- include_role:
-    name: amtega.check_platform
-  vars:
-    check_platform_distributions:
-      centos: 6
-      rhel: 6
-
 - block:
     - include_tasks: faillock.yml
       when:
@@ -21,6 +14,6 @@
     - include_tasks: pwquality.yml
 
     - include_tasks: unix.yml
-    
+
   tags:
     - role::login_defs
