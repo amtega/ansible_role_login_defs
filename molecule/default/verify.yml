@@ -1,57 +1,24 @@
 ---
-# Tasks for testing role
 
-- name: Configure sandbox environment
-  hosts: localhost
-  roles:
-    - role: amtega.vagrant_presets
-      vagrant_presets_boxes_json_query: >-
-        [? starts_with(name, `centos-6`)
-           || starts_with(name, `centos-7`) ]
-  tags:
-    - sandbox
-
-- name: Setup testing sandbox
-  hosts: localhost
-  roles:
-    - role: amtega.vagrant_sandbox
-      vagrant_sandbox_state: started
-  tags:
-    - sandbox
-
-- name: Test login_defs role
-  hosts: vagrant_sandbox_vms
-  roles:
-    - amtega.login_defs
-  vars:
-    login_defs_login_retries: 3
-    login_defs_create_home: yes
-    login_defs_default_home: no
-    login_defs_display_last_login: yes
-    login_defs_log_ok_logins: yes
-    login_defs_log_unknown_fail_usernames: yes
-    login_defs_login_timeout: 300
-    login_defs_default_new_file_permissions: "0027"
-    login_defs_password_maximum_days: 120
-    login_defs_password_minimum_days: 0
-    login_defs_password_minimum_length: 8
-    login_defs_password_warning_age: 7
-    login_defs_password_always_warn: yes
-    login_defs_password_change_tries: 5
-    login_defs_password_remember: 5
+- name: Verify
+  hosts: molecule_hosts
+  gather_facts: yes
   tasks:
+    - name: Include role vars
+      include_vars: ../../vars/main.yml
+
     - name: Read system-auth config file
-      shell: "cat {{ login_defs_system_auth_config_file }}"
+      command: cat /etc/pam.d/system-auth
       changed_when: false
       register: read_system_auth_config_result
 
     - name: Read password-auth config file
-      shell: "cat {{ login_defs_password_auth_config_file }}"
+      command: cat /etc/pam.d/password-auth
       changed_when: false
       register: read_password_auth_config_result
 
     - name: Read login.defs config file
-      shell: "cat {{ login_defs_config_file }}"
+      command: cat /etc/login.defs
       changed_when: false
       register: read_login_defs_config_result
 
@@ -101,14 +68,3 @@
           - stdout is search("UMASK 0027")
       vars:
         stdout: "{{ read_login_defs_config_result.stdout }}"
-  tags:
-    - idempotence
-
-- name: Cleanup testing sandbox
-  hosts: localhost
-  roles:
-    - role: amtega.vagrant_sandbox
-      vagrant_sandbox_state: absent
-  tags:
-    - cleanup
-    - sandbox
