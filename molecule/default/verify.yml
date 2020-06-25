@@ -4,20 +4,21 @@
   hosts: molecule_hosts
   gather_facts: yes
   tasks:
-    - include_vars: ../../vars/main.yml
+    - name: Include role vars
+      include_vars: ../../vars/main.yml
 
     - name: Read system-auth config file
-      shell: cat /etc/pam.d/system-auth
+      command: cat /etc/pam.d/system-auth
       changed_when: false
       register: read_system_auth_config_result
 
     - name: Read password-auth config file
-      shell: cat /etc/pam.d/password-auth
+      command: cat /etc/pam.d/password-auth
       changed_when: false
       register: read_password_auth_config_result
 
     - name: Read login.defs config file
-      shell: cat /etc/login.defs
+      command: cat /etc/login.defs
       changed_when: false
       register: read_login_defs_config_result
 
