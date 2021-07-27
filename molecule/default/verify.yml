@@ -9,17 +9,17 @@
 
     - name: Read system-auth config file
       command: cat /etc/pam.d/system-auth
-      changed_when: false
+      changed_when: no
       register: read_system_auth_config_result
 
     - name: Read password-auth config file
       command: cat /etc/pam.d/password-auth
-      changed_when: false
+      changed_when: no
       register: read_password_auth_config_result
 
     - name: Read login.defs config file
       command: cat /etc/login.defs
-      changed_when: false
+      changed_when: no
       register: read_login_defs_config_result
 
     - name: Verify that system-auth config matches inventory
