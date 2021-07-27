@@ -3,11 +3,12 @@
 
 galaxy_info:
   role_name: login_defs
+  namespace: amtega
   author: Carlos Chedas Fernández / Juan Antonio Valiño García
   description: Configure login.defs shadow password suite
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
-  min_ansible_version: 2.9
+  min_ansible_version: 2.10
   platforms:
     - name: EL
       versions:
