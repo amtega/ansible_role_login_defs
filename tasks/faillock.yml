@@ -6,14 +6,14 @@
       command: "cat {{ login_defs_system_auth_config_file }}"
       args:
         warn: no
-      changed_when: false
+      changed_when: no
       register: search_system_auth_config
 
     - name: Search if pam_faillock is configured in password-auth config file
       command: "cat {{ login_defs_password_auth_config_file }}"
       args:
         warn: no
-      changed_when: false
+      changed_when: no
       register: search_password_auth_config
 
     - block:
