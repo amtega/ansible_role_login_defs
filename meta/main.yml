@@ -14,6 +14,7 @@ galaxy_info:
       versions:
         - 6
         - 7
+        - 8
   galaxy_tags:
     - system
     - password
@@ -27,3 +28,13 @@ dependencies:
       check_platform_distributions:
         centos: 6
         redhat: 6
+
+  - role: amtega.packages
+    vars:
+      packages_os:
+        centos:
+          8:
+            authselect-compat: present
+        redhat:
+          8:
+            authselect-compat: present
