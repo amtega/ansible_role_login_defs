@@ -3,9 +3,7 @@
 
 - block:
     - include_tasks: faillock.yml
-      when:
-        - ansible_facts.distribution | lower in ["centos", "rehat"]
-        - ansible_facts.distribution_major_version is version('7', '>=')
+      when: ansible_facts.distribution_major_version is version("7", ">=")
 
     - include_tasks: login_defs.yml
 
