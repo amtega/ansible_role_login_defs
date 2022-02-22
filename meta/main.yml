@@ -32,9 +32,6 @@ dependencies:
   - role: amtega.packages
     vars:
       packages_os:
-        centos:
-          8:
-            authselect-compat: present
-        redhat:
+        all:
           8:
             authselect-compat: present
