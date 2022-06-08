@@ -42,6 +42,7 @@
             insertbefore: "^auth( +)required( +)pam_deny.so"
             line: "{{ login_defs_pam_faillock_pam_d_config_bugfix }}"
       when:
+        - ansible_facts.distribution_major_version is version("7", "<=")
         - >-
           search_password_auth_config_result.stdout
           is not search("pam_faillock.so")
@@ -57,6 +58,50 @@
                     --disablefaillock
                     --updateall
       when:
+        - ansible_facts.distribution_major_version is version("7", "<=")
+        - search_password_auth_config_result.stdout is search("pam_faillock.so")
+        - search_system_auth_config_result.stdout is search("pam_faillock.so")
+        - login_defs_pam_faillock_state == "absent"
+
+    - block:
+        - name: Check if authselect profile is loaded
+          command: authselect current
+          changed_when: no
+          failed_when: no
+          register: search_authselect_profile_result
+
+        - name: Force basic sssd profile if not exists
+          command: /usr/bin/authselect select sssd with-mkhomedir --force
+          when: >-
+            search_authselect_profile_result.stdout
+            is search("No existing configuration detected")
+
+        - name: Include faillock auth configuration
+          command: authselect enable-feature with-faillock
+
+        - name: Configure faillock params
+          template:
+            backup: yes
+            src: faillock.conf.j2
+            dest: "{{ login_defs_faillock_config_file }}"
+            owner: root
+            group: root
+            mode: "0644"
+      when:
+        - ansible_facts.distribution_major_version is version("7", ">")
+        - >-
+          search_password_auth_config_result.stdout
+             is not search("pam_faillock.so")
+        - >-
+          search_system_auth_config_result.stdout
+             is not search("pam_faillock.so")
+        - login_defs_pam_faillock_state == "present"
+
+    - block:
+        - name: Exclude faillock auth configuration
+          command: authselect disable-feature with-faillock
+      when:
+        - ansible_facts.distribution_major_version is version("7", ">")
         - search_password_auth_config_result.stdout is search("pam_faillock.so")
         - search_system_auth_config_result.stdout is search("pam_faillock.so")
         - login_defs_pam_faillock_state == "absent"
