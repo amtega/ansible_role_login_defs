@@ -13,6 +13,30 @@ login_defs_pam_faillock_deny: 5
 
 login_defs_pam_faillock_unlock_time: 900
 
+# Will log the user name into the system log if the user is not found
+login_defs_pam_faillock_audit: yes
+
+# Don't print informative messages
+login_defs_pam_faillock_silent: yes
+
+# Don't log informative messages via syslog
+login_defs_pam_faillock_no_log_info: no
+
+# Only track failed user authentications attempts for local users
+login_defs_pam_faillock_local_users_only: no
+
+# Length of the interval during which the consecutive
+login_defs_pam_faillock_fail_interval: 900
+
+# Root account can become locked as well as regular accounts.
+login_defs_pam_faillock_even_deny_root: no
+
+# Root unlock time
+login_defs_pam_faillock_root_unlock_time: 900
+
+# Define basic authselect profile
+login_defs_basic_authselect_profile: sssd
+
 # Number of attemps to login
 
 login_defs_login_retries: 3
