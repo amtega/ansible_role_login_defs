@@ -26,12 +26,18 @@ dependencies:
   - role: amtega.check_platform
     vars:
       check_platform_distributions:
-        centos: 6
-        redhat: 6
+        centos: 7
+        redhat: 7
+        fedora: 34
 
   - role: amtega.packages
     vars:
       packages_os:
+        fedora:
+          34:
+            authselect-compat: present
+          35:
+            authselect: present
         all:
           8:
             authselect-compat: present

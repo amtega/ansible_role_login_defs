@@ -1,0 +1,38 @@
+{{ ansible_managed | comment }}
+
+dir = {{ login_defs_faillock_database_dir }}
+
+{% if login_defs_pam_faillock_audit %}
+audit
+{% endif %}
+
+{% if login_defs_pam_faillock_silent %}
+silent
+{% endif %}
+
+{% if login_defs_pam_faillock_no_log_info %}
+no_log_info
+{% endif %}
+
+{% if login_defs_pam_faillock_local_users_only %}
+local_users_only
+{% endif %}
+
+deny = {{ login_defs_pam_faillock_deny }}
+
+fail_interval = {{ login_defs_pam_faillock_fail_interval }}
+
+unlock_time = {{ login_defs_pam_faillock_unlock_time }}
+
+{% if login_defs_pam_faillock_even_deny_root %}
+even_deny_root
+
+root_unlock_time = {{ login_defs_pam_faillock_root_unlock_time }}
+{% endif %}
+
+# If a group name is specified with this option, members
+# of the group will be handled by this module the same as
+# the root account (the options `even_deny_root>` and
+# `root_unlock_time` will apply to them.
+# By default, the option is not set.
+# admin_group = <admin_group_name>
