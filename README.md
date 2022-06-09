@@ -41,3 +41,4 @@ This role is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 
 - Carlos Chedas Fernandez.
 - Juan Antonio Valiño García.
+- José Enrique Mourón Regueira
