@@ -4,7 +4,10 @@
 galaxy_info:
   role_name: login_defs
   namespace: amtega
-  author: Carlos Chedas Fernández / Juan Antonio Valiño García
+  author: >-
+    Carlos Chedas Fernández /
+    Juan Antonio Valiño García /
+    José Enrique Mourón Regueira
   description: Configure login.defs shadow password suite
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
@@ -15,6 +18,10 @@ galaxy_info:
         - 6
         - 7
         - 8
+    - name: Fedora
+      versions:
+        - 34
+        - 35
   galaxy_tags:
     - system
     - password

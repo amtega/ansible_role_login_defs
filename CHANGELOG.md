@@ -5,11 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-## [1.4.2] - 2022-02-22
+
+## [1.5.0] - 2022-06-09
 ### Added
-- Add fedora support. Related to ansible/roles/amtega.login_defs#3
+- Added fedora support. Related to ansible/roles/amtega.login_defs#3
+
 ### Fixed
-- Add faillock support for Centos8 / Fedora
+- Added faillock support for EL8 / Fedora
 
 ## [1.4.1] - 2022-02-22
 ### Fixed

@@ -10,17 +10,17 @@
     - name: Read system-auth config file
       command: cat /etc/pam.d/system-auth
       changed_when: no
-      register: read_system_auth_config_result
+      register: login_defs_read_system_auth_config_result
 
     - name: Read password-auth config file
       command: cat /etc/pam.d/password-auth
       changed_when: no
-      register: read_password_auth_config_result
+      register: login_defs_read_password_auth_config_result
 
     - name: Read login.defs config file
       command: cat /etc/login.defs
       changed_when: no
-      register: read_login_defs_config_result
+      register: login_defs_read_login_defs_config_result
 
     - name: Verify that system-auth config matches inventory
       assert:
@@ -29,7 +29,7 @@
           - stdout is search(login_defs_pam_unix_pam_d_config)
       when: ansible_facts.distribution_major_version is version("6", "<=")
       vars:
-        stdout: "{{ read_system_auth_config_result.stdout }}"
+        stdout: "{{ login_defs_read_system_auth_config_result.stdout }}"
 
     - name: Verify that system-auth config matches inventory
       assert:
@@ -39,7 +39,7 @@
           - stdout is search("pam_faillock.so")
       when: ansible_facts.distribution_major_version is version("7", ">=")
       vars:
-        stdout: "{{ read_system_auth_config_result.stdout }}"
+        stdout: "{{ login_defs_read_system_auth_config_result.stdout }}"
 
     - name: Verify that password-auth config matches inventory
       assert:
@@ -47,7 +47,7 @@
           - stdout is search("pam_faillock.so")
       when: ansible_facts.distribution_major_version is version("7", ">=")
       vars:
-        stdout: "{{ read_password_auth_config_result.stdout }}"
+        stdout: "{{ login_defs_read_password_auth_config_result.stdout }}"
 
     - name: Verify that login.defs config matches inventory
       assert:
@@ -67,4 +67,4 @@
           - stdout is search("LOGIN_TIMEOUT 300")
           - stdout is search("UMASK 0027")
       vars:
-        stdout: "{{ read_login_defs_config_result.stdout }}"
+        stdout: "{{ login_defs_read_login_defs_config_result.stdout }}"
