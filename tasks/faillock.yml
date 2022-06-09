@@ -71,7 +71,10 @@
           register: search_authselect_profile_result
 
         - name: Force basic sssd profile if not exists
-          command: /usr/bin/authselect select sssd with-mkhomedir --force
+          command: >-
+            /usr/bin/authselect
+            select {{ login_defs_basic_authselect_profile}}
+            with-mkhomedir --force
           when: >-
             search_authselect_profile_result.stdout
             is search("No existing configuration detected")

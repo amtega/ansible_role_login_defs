@@ -34,6 +34,9 @@ login_defs_pam_faillock_even_deny_root: no
 # Root unlock time
 login_defs_pam_faillock_root_unlock_time: 900
 
+# Define basic authselect profile
+login_defs_basic_authselect_profile: sssd
+
 # Number of attemps to login
 
 login_defs_login_retries: 3
