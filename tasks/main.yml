@@ -1,13 +1,13 @@
 ---
-# Role tasks
 
-- block:
-    - include_tasks: faillock.yml
+- name: Setup login defs
+  block:
+    - ansible.builtin.include_tasks: faillock.yml
       when: ansible_facts.distribution_major_version is version("7", ">=")
 
-    - include_tasks: login_defs.yml
-    - include_tasks: cracklib.yml
-    - include_tasks: pwquality.yml
-    - include_tasks: unix.yml
+    - ansible.builtin.include_tasks: login_defs.yml
+    - ansible.builtin.include_tasks: cracklib.yml
+    - ansible.builtin.include_tasks: pwquality.yml
+    - ansible.builtin.include_tasks: unix.yml
   tags:
     - role::login_defs
