@@ -1,8 +1,7 @@
 ---
-# Login defaults tasks.
 
 - name: Setup login.defs file
-  template:
+  ansible.builtin.template:
     backup: yes
     src: login_defs.j2
     dest: "{{ login_defs_config_file }}"

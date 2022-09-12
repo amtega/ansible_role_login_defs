@@ -1,28 +1,30 @@
 ---
-# Faillock config tasks
 
-- block:
+- name: Setup faillock
+  block:
     - name: Search if pam_faillock is configured in system-auth config file
-      command: "cat {{ login_defs_system_auth_config_file }}"
+      ansible.builtin.command: "cat {{ login_defs_system_auth_config_file }}"
       args:
         warn: no
       changed_when: no
       register: login_defs_search_system_auth_config_result
 
     - name: Search if pam_faillock is configured in password-auth config file
-      command: "cat {{ login_defs_password_auth_config_file }}"
+      ansible.builtin.command: "cat {{ login_defs_password_auth_config_file }}"
       args:
         warn: no
       changed_when: no
       register: login_defs_search_password_auth_config_result
 
-    - block:
+    - name: Manage legacy faillock
+      block:
         - name: Setup faillock auth configuration
-          command: >-
+          ansible.builtin.command: >-
             /usr/sbin/authconfig
             --enablefaillock
             --faillockargs='{{ fail_lock_args }}'
             --updateall
+          changed_when: yes
           vars:
             fail_lock_args: >-
               deny={{ login_defs_pam_faillock_deny }}
@@ -30,14 +32,14 @@
 
         # See https://access.redhat.com/solutions/4175751 for details
         - name: Fix bug 1485490
-          lineinfile:
+          ansible.builtin.lineinfile:
             path: "{{ login_defs_password_auth_config_file }}"
             regexp: "^auth( +)required( +)pam_faillock.so( +)authfail"
             state: absent
 
         # See https://access.redhat.com/solutions/4175751 for details
         - name: Fix bug 1485490
-          lineinfile:
+          ansible.builtin.lineinfile:
             path: "{{ login_defs_password_auth_config_file }}"
             insertbefore: "^auth( +)required( +)pam_deny.so"
             line: "{{ login_defs_pam_faillock_pam_d_config_bugfix }}"
@@ -51,12 +53,14 @@
           is not search("pam_faillock.so")
         - login_defs_pam_faillock_state == "present"
 
-    - block:
+    - name: Manage faillock using authconfig tool
+      block:
         - name: Exclude faillock auth configuration
-          command: >-
+          ansible.builtin.command: >-
             /usr/sbin/authconfig
             --disablefaillock
             --updateall
+          changed_when: yes
       when:
         - ansible_facts.distribution_major_version is version("7", "<=")
         - >-
@@ -67,9 +71,10 @@
           is search("pam_faillock.so")
         - login_defs_pam_faillock_state == "absent"
 
-    - block:
+    - name: Manage authselect profile
+      block:
         - name: Check if authselect profile is loaded
-          command: authselect current
+          ansible.builtin.command: authselect current
           changed_when: no
           failed_when: no
           register: login_defs_search_authselect_profile_result
@@ -77,19 +82,21 @@
             LANGUAGE: en_US
 
         - name: Setup default profile
-          command: >-
+          ansible.builtin.command: >-
             /usr/bin/authselect
-            select {{ login_defs_default_authselect_profile}}
+            select {{ login_defs_default_authselect_profile }}
             with-mkhomedir --force
+          changed_when: yes
           when: >-
             login_defs_search_authselect_profile_result.stdout
             is search("No existing configuration detected")
 
         - name: Setup faillock auth configuration
-          command: authselect enable-feature with-faillock
+          ansible.builtin.command: authselect enable-feature with-faillock
+          changed_when: yes
 
         - name: Configure faillock parameters
-          template:
+          ansible.builtin.template:
             backup: yes
             src: faillock.conf.j2
             dest: "{{ login_defs_faillock_config_file }}"
@@ -106,9 +113,10 @@
              is not search("pam_faillock.so")
         - login_defs_pam_faillock_state == "present"
 
-    - block:
-        - name: Exclude faillock auth configuration
-          command: authselect disable-feature with-faillock
+
+    - name: Exclude faillock auth configuration
+      ansible.builtin.command: authselect disable-feature with-faillock
+      changed_when: yes
       when:
         - ansible_facts.distribution_major_version is version("7", ">")
         - >-
