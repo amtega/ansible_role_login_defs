@@ -1,18 +1,16 @@
 ---
-# Password unix module tasks
 
-- block:
-    - name: Setup password unix module
-      lineinfile:
-        path: "{{ login_defs_unix_module_file }}"
-        state: present
-        regexp: "^password( +)sufficient( +)pam_unix.so"
-        line: "password\\1sufficient\\2{{ login_defs_pam_unix_pam_d_config }}"
-        backrefs: yes
-      loop:
-        - "{{ login_defs_system_auth_config_file }}"
-        - "{{ login_defs_password_auth_config_file }}"
-      loop_control:
-        loop_var: login_defs_unix_module_file
+- name: Setup password unix module
+  ansible.builtin.lineinfile:
+    path: "{{ login_defs_unix_module_file }}"
+    state: present
+    regexp: "^password( +)sufficient( +)pam_unix.so"
+    line: "password\\1sufficient\\2{{ login_defs_pam_unix_pam_d_config }}"
+    backrefs: yes
+  loop:
+    - "{{ login_defs_system_auth_config_file }}"
+    - "{{ login_defs_password_auth_config_file }}"
+  loop_control:
+    loop_var: login_defs_unix_module_file
   tags:
     - role::login_defs::unix

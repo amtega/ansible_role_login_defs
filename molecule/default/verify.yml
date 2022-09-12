@@ -5,25 +5,25 @@
   gather_facts: yes
   tasks:
     - name: Include role vars
-      include_vars: ../../vars/main.yml
+      ansible.builtin.include_vars: ../../vars/main.yml
 
     - name: Read system-auth config file
-      command: cat /etc/pam.d/system-auth
+      ansible.builtin.command: cat /etc/pam.d/system-auth
       changed_when: no
       register: login_defs_read_system_auth_config_result
 
     - name: Read password-auth config file
-      command: cat /etc/pam.d/password-auth
+      ansible.builtin.command: cat /etc/pam.d/password-auth
       changed_when: no
       register: login_defs_read_password_auth_config_result
 
     - name: Read login.defs config file
-      command: cat /etc/login.defs
+      ansible.builtin.command: cat /etc/login.defs
       changed_when: no
       register: login_defs_read_login_defs_config_result
 
     - name: Verify that system-auth config matches inventory
-      assert:
+      ansible.builtin.assert:
         that:
           - stdout is search(login_defs_cracklib_pam_d_config)
           - stdout is search(login_defs_pam_unix_pam_d_config)
@@ -32,7 +32,7 @@
         stdout: "{{ login_defs_read_system_auth_config_result.stdout }}"
 
     - name: Verify that system-auth config matches inventory
-      assert:
+      ansible.builtin.assert:
         that:
           - stdout is search(login_defs_pwquality_pam_d_config)
           - stdout is search(login_defs_pam_unix_pam_d_config)
@@ -42,7 +42,7 @@
         stdout: "{{ login_defs_read_system_auth_config_result.stdout }}"
 
     - name: Verify that password-auth config matches inventory
-      assert:
+      ansible.builtin.assert:
         that:
           - stdout is search("pam_faillock.so")
       when: ansible_facts.distribution_major_version is version("7", ">=")
@@ -50,7 +50,7 @@
         stdout: "{{ login_defs_read_password_auth_config_result.stdout }}"
 
     - name: Verify that login.defs config matches inventory
-      assert:
+      ansible.builtin.assert:
         that:
           - stdout is search("PASS_MAX_DAYS 120")
           - stdout is search("PASS_MIN_DAYS 0")
